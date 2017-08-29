@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style type="text/css">
+			* {
+				padding: 0;
+				margin: 0;
+			}
+			
+			#myCanvas {
+				box-shadow: 0 0 5px gray;
+				margin: 100px 300px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<canvas id="myCanvas" width="600" height="600"></canvas>
+	</body>
+	<script type="text/javascript">
+		var dateTime = new Date();
+		var second = dateTime.getSeconds();
+		var minute = dateTime.getMinutes();
+		var hour = dateTime.getHours();
+		var myCanvas = document.getElementById("myCanvas")
+		var txt = myCanvas.getContext("2d")
+		var num = 0
+			//画表盘
+		txt.translate(300, 300)
+
+		clockFace()
+		big()
+		small()
+
+		function clockFace() {
+			txt.beginPath()
+			txt.strokeStyle = "black"
+			txt.lineWidth = 5
+			txt.closePath()
+			txt.arc(0, 0, 290, 0, Math.PI * 2, false)
+			txt.stroke()
+		}
+
+		function big() {
+			for(var i = 1; i < 13; i++) {
+				txt.save()
+				txt.beginPath()
+				num += Math.PI / 6
+				txt.rotate(num)
+				txt.closePath()
+				txt.fillRect(0, -290, 10, 20)
+				txt.restore()
+			}
+		}
+		small()
+
+		function small() {
+			num = 0
+			for(var i = 1; i < 61; i++) {
+				txt.save()
+				txt.beginPath()
+				num += Math.PI / 30
+				txt.rotate(num)
+				txt.closePath()
+				txt.fillRect(0, -290, 5, 10)
+				txt.restore()
+			}
+		}
+		numbers()
+
+		function numbers() {
+			num = Math.PI / 6
+			for(var i = 1; i < 13; i++) {
+				txt.save();
+				txt.rotate(num);
+				txt.translate(0, -250);
+				txt.rotate(-num);
+				txt.font = "20px 宋体";
+				txt.fillStyle = "black";
+				txt.fillText(i, -10, 10, 30);
+				num += Math.PI / 6;
+				txt.closePath();
+				txt.restore();
+			}
+		}
+		seconds()
+		var timer = setInterval(function() {
+			dateTime = new Date();
+			second = dateTime.getSeconds();
+			txt.clearRect(-300, -300, myCanvas.width, myCanvas.height)
+			clockFace()
+			big()
+			small()
+			numbers()
+			seconds()
+
+		}, 1000)
+
+		txt.save()
+		txt.lineWidth = 7;
+		txt.strokeStyle = "blue";
+		txt.rotate(-hour*30*Math.PI/180);
+		txt.beginPath();
+		txt.moveTo(0, 0);
+		txt.lineTo(0, 160);
+		txt.stroke();
+		txt.closePath();
+		txt.restore();
+		txt.restore()
+
+		function seconds() {
+			txt.save()
+			txt.beginPath()
+			txt.rotate(second * 6 * Math.PI / 180)
+			console.log(second)
+			txt.moveTo(0, 0) //起始
+			txt.lineTo(0, -250) //终点
+			txt.strokeStyle = "red"
+			txt.lineWidth = 1
+			txt.stroke()
+			txt.restore()
+
+			txt.save()
+			txt.lineWidth = 5;
+			txt.strokeStyle = "#000";
+			txt.rotate((second / 10) * Math.PI / 180);
+			txt.beginPath();
+			txt.moveTo(0, 0);
+			txt.lineTo(0, 200);
+			txt.stroke();
+			txt.closePath();
+			txt.restore();
+			txt.restore()
+
+			txt.save()
+			txt.lineWidth = 7;
+			txt.strokeStyle = "blue";
+			txt.rotate(-hour*30*Math.PI/180);
+			txt.beginPath();
+			txt.moveTo(0, 0);
+			txt.lineTo(0, 160);
+			txt.stroke();
+			txt.closePath();
+			txt.restore();
+			txt.restore()
+		}
+	</script>
+
+</html>
