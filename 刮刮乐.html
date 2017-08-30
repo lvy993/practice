@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style type="text/css">
+			* {
+				padding: 0;
+				margin: 0;
+			}
+			
+			body {
+				position: relative;
+			}
+			
+			#myCanvas {
+				box-shadow: 0 0 5px gray;
+				position: absolute;
+				left: 50%;
+				top: 50px;
+				margin-left: -150px;
+				transition: all 2s;
+			}
+			
+			img {
+				width: 300px;
+				height: 450px;
+				position: absolute;
+				left: 50%;
+				top: 50px;
+				margin-left: -150px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<img src="img/8.jpg" />
+		<canvas id="myCanvas" width="300" height="450"></canvas>
+	</body>
+	<script type="text/javascript" src="js/jquery-1.12.1.min.js"></script>
+	<script type="text/javascript">
+		var myCanvas = document.getElementById("myCanvas")
+		var txt = myCanvas.getContext("2d")
+		txt.beginPath()
+		txt.fillStyle = "gray"
+		txt.closePath()
+		txt.fillRect(0, 0, 500, 748)
+
+		$("#myCanvas").on("mousedown", function(e) {
+			$(document).on("mousemove", function(e) {
+				var x = e.pageX;
+				var y = e.pageY;
+				var leftX = $("#myCanvas").offset().left
+				var topY = $("#myCanvas").offset().top
+				var leftM = x - leftX
+
+				var topM = y - topY
+				txt.globalCompositeOperation = "destination-out"
+				txt.beginPath()
+				txt.arc(leftM, topM, 30, 0, Math.PI * 2, false)
+				txt.closePath()
+				txt.fill();
+
+				adjustAlpha()
+			})
+		})
+
+		//定义函数用来统计canvas标签上透明部分百分比
+		function adjustAlpha() {
+			var imgData = txt.getImageData(0, 0, myCanvas.width, myCanvas.height)
+			var value = imgData.data
+			var count = 0
+			for(var i = 0; i < value.length; i += 4) {
+				if(value[i + 3] == 0) {
+					count++
+				}
+			}
+			if(count*2 >= value.length / 4) {
+				myCanvas.style.opacity = 0
+			}
+		}
+	</script>
+
+</html>
