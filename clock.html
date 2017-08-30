@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			* {
+				padding: 0;
+				margin: 0;
+			}
+			
+			.clockFace {
+				width: 500px;
+				height: 500px;
+				border: 2px solid black;
+				border-radius: 250px;
+				margin: 100px auto;
+				background: url(img/10.jpg);
+				background-repeat: no-repeat;
+				background-size: 100% 100%;
+				position: relative;
+			}
+			/*设置大刻度*/
+			
+			.clockFace .clocklg {
+				width: 500px;
+				height: 20px;
+				overflow: hidden;
+				position: absolute;
+				top: 240px;
+				left: 0;
+			}
+			
+			.clockFace .clocklg div {
+				list-style: none;
+				width: 80px;
+				height: 20px;
+				overflow: hidden;
+			}
+			
+			.clockFace .clocklg .left {
+				float: left;
+			}
+			
+			.clockFace .clocklg .right {
+				float: right;
+			}
+			
+			.clockFace .clocklg div li:nth-child(1) {
+				width: 30px;
+				height: 8px;
+				margin: 3px 0;
+				background: skyblue;
+			}
+			
+			.clockFace .clocklg div li:nth-child(2) {
+				font-size: 20px;
+				width: 45px;
+				height: 20px;
+				text-align: center;
+				line-height: 20px;
+				color: red;
+			}
+			/*设置小刻度外观*/
+			
+			.clockFace .clockSm {
+				width: 500px;
+				height: 4px;
+				position: absolute;
+				top: 248px;
+				left: 0;
+			}
+			
+			.clockFace .clockSm div {
+				width: 15px;
+				height: 4px;
+				background: skyblue;
+				overflow: hidden;
+			}
+			
+			.clockFace .clockSm .left {
+				float: left;
+			}
+			
+			.clockFace .clockSm .right {
+				float: right;
+			}
+			
+			.clockFace .hour {
+				width: 100px;
+				height: 12px;
+				background: yellow;
+				border-radius: 7.5px 0 0 7.5px;
+				left: 150px;
+				top: 242.5px;
+			}
+			
+			.clockFace .minute {
+				width: 150px;
+				height: 10px;
+				background: greenyellow;
+				border-radius: 5px 0 0 5px;
+				left: 100px;
+				top: 245px;
+			}
+			
+			.clockFace .second {
+				width: 200px;
+				height: 5px;
+				background: indianred;
+				border-radius: 2.5px 0 0 2.5px;
+				left: 50px;
+				top: 247.5px;
+			}
+			
+			.clockFace .hour,
+			.clockFace .minute,
+			.clockFace .second {
+				position: absolute;
+				/*修改标签基准点的坐标*/
+				transform-origin: 100% 50%;
+			}
+			
+			.clockFace .center {
+				width: 20px;
+				height: 20px;
+				border-radius: 10px;
+				background: beige;
+				position: absolute;
+				top: 240px;
+				left: 240px;
+			}
+			
+			#showTime {
+				width: 300px;
+				height: 50px;
+				text-align: center;
+				line-height: 50px;
+				background: chartreuse;
+				opacity: 0.5;
+				font-size: 20px;
+				color: white;
+				position: absolute;
+				left: 100px;
+				border-radius: 
+				;
+				top: 350px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="clockFace">
+			<div class="clocklg">
+				<div class="left">
+					<li style="float: left;"></li>
+					<li style="float: right;" class="value">12</li>
+				</div>
+				<div class="right">
+					<li style="float: right;"></li>
+					<li style="float: left;" class="value">6</li>
+				</div>
+			</div>
+			<div class="clocklg">
+				<div class="left">
+					<li style="float: left;"></li>
+					<li style="float: right;" class="value">1</li>
+				</div>
+				<div class="right">
+					<li style="float: right;"></li>
+					<li style="float: left;" class="value">7</li>
+				</div>
+			</div>
+			<div class="clocklg">
+				<div class="left">
+					<li style="float: left;"></li>
+					<li style="float: right;" class="value">2</li>
+				</div>
+				<div class="right">
+					<li style="float: right;"></li>
+					<li style="float: left;" class="value">8</li>
+				</div>
+			</div>
+			<div class="clocklg">
+				<div class="left">
+					<li style="float: left;"></li>
+					<li style="float: right;" class="value">3</li>
+				</div>
+				<div class="right">
+					<li style="float: right;"></li>
+					<li style="float: left;" class="value">9</li>
+				</div>
+			</div>
+			<div class="clocklg">
+				<div class="left">
+					<li style="float: left;"></li>
+					<li style="float: right;" class="value">4</li>
+				</div>
+				<div class="right">
+					<li style="float: right;"></li>
+					<li style="float: left;" class="value">10</li>
+				</div>
+			</div>
+			<div class="clocklg">
+				<div class="left">
+					<li style="float: left;"></li>
+					<li style="float: right;" class="value">5</li>
+				</div>
+				<div class="right">
+					<li style="float: right;"></li>
+					<li style="float: left;" class="value">11</li>
+				</div>
+			</div>
+			<div class="clockSm">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<div class="clockSm">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<div class="clockSm">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<div class="clockSm">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<div class="clockSm">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<div class="clockSm">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<div class="clockSm">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<div class="clockSm">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<div class="clockSm">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<div class="clockSm">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<div class="clockSm">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<div class="clockSm">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<div class="clockSm">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<div class="clockSm">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<div class="clockSm">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<div class="clockSm">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<div class="clockSm">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<div class="clockSm">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<div class="clockSm">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<div class="clockSm">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<div class="clockSm">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<div class="clockSm">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<div class="clockSm">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<div class="clockSm">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<!--设置时分秒-->
+			<div class="hour"></div>
+			<div class="minute"></div>
+			<div class="second"></div>
+			<div class="center"></div>
+			<div id="showTime"></div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		//获取大刻度
+		var clocklg = document.getElementsByClassName("clocklg");
+		var values = document.getElementsByClassName("value");
+		var clockSm = document.getElementsByClassName("clockSm");
+		var hourMark = document.getElementsByClassName("hour")[0];
+		var minuteMark = document.getElementsByClassName("minute")[0];
+		var secondMark = document.getElementsByClassName("second")[0];
+		var showTime=document.getElementById("showTime")
+
+		//定义一个函数完成对大刻度的设置
+		function drawClocklg() {
+			//定义旋转起始角度
+			var startAngle = 90;
+			for(var i = 0; i < clocklg.length; i++) {
+				clocklg[i].style.transform = "rotateZ(" + startAngle + "deg)";
+				startAngle += 30;
+			}
+			startAngle = -90;
+			for(var i = 0; i < values.length; i += 2) {
+				values[i].style.transform = "rotateZ(" + startAngle + "deg)";
+				values[i + 1].style.transform = "rotateZ(" + startAngle + "deg)";
+				startAngle -= 30;
+			}
+		}
+
+		drawClocklg();
+		//设置小刻度函数
+		function drawClockSm() {
+			var startAngle = 90;
+			for(var i = 0; i < clockSm.length; i++) {
+				if(startAngle % 30 == 0) {
+					startAngle += 6
+				}
+				clockSm[i].style.transform = "rotateZ(" + startAngle + "deg)";
+				startAngle += 6
+			}
+		}
+		drawClockSm()
+			//定义一个函数完成时针分针秒针位置设置
+		function setCurrenTime(dateTime) {
+			//获取当前的小时，分钟和秒针
+			var hour = dateTime.getHours();
+			var minute = dateTime.getMinutes();
+			var second = dateTime.getSeconds();
+			//获取年份 月份 日期
+			var year=dateTime.getFullYear();
+			var month=dateTime.getMonth()+1;
+			var day=dateTime.getDate();
+			var minuteStr=minute,secondStr=second;
+			if(minute<10){
+				minuteStr="0"+minute
+			}
+			if(second<10){
+				secondStr="0"+second
+			}
+			//拼接字符串
+			showTime.innerHTML=year+"年"+month+"月"+day+"日"+hour+":"+minuteStr+":"+secondStr;
+			
+			
+			//设置秒针偏转
+			secondMark.style.transform = "rotateZ(" + (90 + second * 6) + "deg)";
+			//设置分针
+			minuteMark.style.transform = "rotateZ(" + (90 + minute * 6 + second / 10) + "deg)";
+			//设置时针
+			hourMark.style.transform = "rotateZ(" + (90 + hour * 30 + minute / 2) + "deg)"
+		}
+		var dateTime = new Date();
+		setCurrenTime(dateTime);
+		var timer = setInterval(function() {
+			var newTime = new Date();
+			setCurrenTime(newTime);
+		}, 1000);
+	</script>
+
+</html>
