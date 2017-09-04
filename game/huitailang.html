@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style type="text/css">
+			* {
+				padding: 0;
+				margin: 0;
+			}
+			
+			.gameFace {
+				width: 320px;
+				margin: 100px auto;
+				position: relative;
+			}
+			
+			.gameFace #score {
+				position: absolute;
+				top: 12px;
+				left: 60px;
+				color: white;
+				font-size: 20px;
+			}
+			/*设置游戏进度条*/
+			
+			#progress {
+				width: 180px;
+				height: 16px;
+				position: absolute;
+				left: 63px;
+				top: 66px;
+				border-radius: 8px;
+			}
+			
+			.wolf {
+				width: 80px;
+				position: absolute;
+			}
+			/*设置游戏说明*/
+			
+			.gameFace .begin,
+			.gameFace .over {
+				position: absolute;
+				left: 0px;
+				top: 190px;
+				width: 320px;
+				text-align: center;
+			}
+			
+			.gameFace .begin a,
+			.gameFace .over a,
+			.gameFace .over span {
+				display: block;
+				font-size: 30px;
+				text-shadow: 4px 0 4px greenyellow;
+				text-decoration: none;
+				color: red;
+				font-weight: bold;
+				margin: 20px 0;
+			}
+			
+			.gameFace .over {
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="gameFace">
+			<img src="img/game_bg.jpg" id="back" />
+			<!-- 显示游戏分数-->
+			<div id="score">0</div>
+			<!--进度条-->
+			<img src="img/progress.png" alt="" id="progress" />
+			<!--设置游戏开始按钮和游戏说明-->
+			<div class="begin">
+				<a href="###" id="begin">开始</a>
+				<a href="###">游戏说明</a>
+			</div>
+			<div class="over">
+				<span>GAME OVER</span>
+				<a href="###" id="again">再来一局</a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="js/tween.js"></script>
+	<script type="text/javascript">
+		var points = [
+			[110, 137],
+			[30, 182],
+			[30, 245],
+			[40, 317],
+			[130, 297],
+			[217, 319],
+			[210, 234],
+			[114, 214],
+			[198, 163]
+		];
+		var indexs = []; //存储当前正在运行的狼的下标
+		/*获取对应的按钮*/
+		//获取显示进度图
+		var progress = document.getElementById("progress")
+			//获取分数
+		var socre = document.getElementById("score")
+			//获取游戏界面
+		var gameFace = document.getElementsByClassName("gameFace")[0]
+		var begins = document.getElementsByClassName("begin")[0]
+		var start = document.getElementById("begin")
+			//获取结束游戏的div标签
+		var over = document.getElementsByClassName("over")[0]
+			//获取再来一次标签
+		var again = document.getElementById("again")
+		begins.onclick = function() {
+				begins.style.display = "none"
+					//开始游戏
+				startGame()
+					//开始计时
+				changeGame()
+			}
+			//再来一次关联事件
+		again.onclick = function() {
+				over.style.display = "none"
+					//开始游戏
+				startGame()
+					//开始计时
+				changeGame()
+					//分数清零
+				score.innerHTML = 0;
+			}
+			//定义一个函数完成游戏操作
+		var timer1;
+
+		function startGame() {
+			timer1 = setInterval(function() {
+				var img = createWolf();
+				var name = Math.random() * 100 < 20 ? "x" : "h";
+				//定义时间计时器完成🐺的运行
+				var orReverse = false; // 定义用来记录当前的运动是否反向
+				var beginIndex = 0
+				var timer2 = setInterval(function() {
+					img.src = "img/" + name + beginIndex + ".png"
+					if(beginIndex >= 5) {
+						orReverse = true;
+					}
+					if(orReverse == false) {
+						beginIndex++;
+					} else {
+						beginIndex--;
+					}
+					if(beginIndex < 0) {
+						clearInterval(timer2);
+						var index = indexs.indexOf(img.index);
+						indexs.splice(index, 1);
+						gameFace.removeChild(img);
+					}
+
+				}, 100)
+
+				//为狼关联对应点击事件
+				var orClick = false;
+				img.onclick = function() {
+					if(orClick == false) {
+						orClick = true;
+						//完成分数修改
+						if(name == "x") {
+							score.innerHTML = score.innerHTML - 10;
+						} else {
+							score.innerHTML = score.innerHTML - (-10);
+						}
+
+						//击打操作
+						var startHit = 6;
+						clearInterval(timer2)
+						var timer3 = setInterval(function() {
+							img.src = "img/" + name + startHit + ".png"
+							startHit++;
+							if(startHit > 9) {
+								clearInterval(timer3);
+								var index = indexs.indexOf(img.index);
+								indexs.splice(index, 1);
+								gameFace.removeChild(img);
+							}
+						}, 100)
+					}
+				}
+
+			}, 800)
+		}
+		//定义函数生成灰太狼或小灰灰操作   创建图片标签
+		function createWolf() {
+			var img = document.createElement("img");
+			var random = 0
+
+			while(true) {
+				random = getRandom(0, 9)
+				if(indexs.indexOf(random) == -1) {
+					indexs.push(random);
+					break;
+				}
+			}
+			//获取points对应图片的位置 
+			var point = points[random];
+			img.className = "wolf"
+			img.style.left = point[0] + "px";
+			img.style.top = point[1] + "px";
+			img.index = random;
+			//添加图片
+			gameFace.appendChild(img)
+			return img;
+
+		}
+		//定义函数产生随机数
+		function getRandom(min, max) {
+			return Math.floor(Math.random() * (max - min) + min);
+		}
+
+		//定义函数完成时间计时
+		function changeGame() {
+			var b = 180;
+			var c = -180;
+			var t = 0;
+			var d = 50;
+			var timerTotle = setInterval(function() {
+				t++;
+				progress.style.width = Tween.Cubic.easeInOut(t, b, c, d) + "px"
+				if(t >= d) {
+					clearInterval(timerTotle);
+					over.style.display = "block"
+						//停止狼的产生
+					clearInterval(timer1);
+				}
+			}, 100)
+		}
+	</script>
+
+</html>
